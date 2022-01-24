@@ -16,6 +16,7 @@ import java.io.FileReader;
 @Setter
 public class FileConnector {
     private String fileAddress;
+    private String[] header;
 
     public FileConnector(String fileAddress) {
         this.fileAddress = fileAddress;

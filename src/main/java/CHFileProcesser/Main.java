@@ -60,6 +60,6 @@ public class Main {
                 fileConnector.getHeader(),
                 fileConnector.isHeader()
         );
-        columnTypeDefiner.checkColumnIfDate("Order Date");
+        System.out.println(columnTypeDefiner.checkColumnIfDate("Order Date"));
     }
 }

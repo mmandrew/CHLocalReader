@@ -53,7 +53,7 @@ public class ColumnTypeDefiner {
         return resultCommand;
     }
 
-    public void checkColumnIfDate(String columnName) throws IOException, InterruptedException {
+    public boolean checkColumnIfDate(String columnName) throws IOException, InterruptedException {
         String checkingCommand = this.createCommand(columnName);
         System.out.println(checkingCommand);
         ProcessBuilder processBuilder = new ProcessBuilder();
@@ -63,14 +63,16 @@ public class ColumnTypeDefiner {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(process.getInputStream()));
         String line;
-        System.out.println("output");
         while ((line = reader.readLine()) != null) {
-            output.append(line + "\n");
+            output.append(line).append("\n");
         }
 
         int exitVal = process.waitFor();
 
-        System.out.println(exitVal);
-        System.out.println(output);
+        if (exitVal != 0) return false;
+        System.out.println(output.toString());
+        if (!output.toString().equals("0\n")) return false;
+
+        return true;
     }
 }

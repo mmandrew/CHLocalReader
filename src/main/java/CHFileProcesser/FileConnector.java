@@ -26,4 +26,7 @@ public class FileConnector {
         this.columnQuantity = Utils.getColumnQuantity(csvReader);
         return csvReader;
     }
+
+    public String[] getHeader() {return this.header;}
+
 }

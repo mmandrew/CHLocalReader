@@ -48,13 +48,18 @@ public class Main {
         System.out.println(errOutput);
     }*/
     public static void main(String[] args) throws IOException, InterruptedException {
-        //String fileAddress = "/home/andrei/Files/sales_million_records.csv";
-        String fileAddress = "/home/andrei/Files/cut.csv";
+        String fileAddress = "/home/andrei/Files/sales_million_records.csv";
+        //String fileAddress = "/home/andrei/Files/cut.csv";
         FileConnector fileConnector = new FileConnector(fileAddress);
         CSVReader csvReader = fileConnector.makeFileReader(',', '"', true);
 
 
-        ColumnTypeDefiner columnTypeDefiner = new ColumnTypeDefiner(fileAddress, csvReader, fileConnector.getHeader());
-        columnTypeDefiner.checkColumnIfDate("Order_Date");
+        ColumnTypeDefiner columnTypeDefiner = new ColumnTypeDefiner(
+                fileAddress,
+                csvReader,
+                fileConnector.getHeader(),
+                fileConnector.isHeader()
+        );
+        columnTypeDefiner.checkColumnIfDate("Order Date");
     }
 }

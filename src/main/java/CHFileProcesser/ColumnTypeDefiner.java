@@ -56,17 +56,15 @@ public class ColumnTypeDefiner {
         //TODO: adapt processBuilder for other os
         processBuilder.command("bash", "-c", checkingCommand);
         Process process = processBuilder.start();
-        StringBuilder output = new StringBuilder();
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(process.getInputStream()));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            output.append(line).append("\n");
-        }
+        //StringBuilder output = new StringBuilder();
+        //BufferedReader reader = new BufferedReader(
+        //        new InputStreamReader(process.getInputStream()));
+        //String line;
+        //while ((line = reader.readLine()) != null) {
+        //    output.append(line).append("\n");
+        //}
         int exitVal = process.waitFor();
         if (exitVal != 0) return false;
-        //System.out.println(output.toString());
-        //if (!output.toString().equals("0\n")) return false;
 
         return true;
     }

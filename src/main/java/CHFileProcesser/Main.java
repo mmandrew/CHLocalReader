@@ -48,7 +48,8 @@ public class Main {
         System.out.println(errOutput);
     }*/
     public static void main(String[] args) throws IOException, InterruptedException {
-        String fileAddress = "/home/andrei/Files/sales_million_records.csv";
+        //String fileAddress = "/home/andrei/Files/sales_million_records.csv";
+        String fileAddress = "/home/andrei/Files/5m_sales.csv";
         //String fileAddress = "/home/andrei/Files/cut.csv";
         FileConnector fileConnector = new FileConnector(fileAddress);
         CSVReader csvReader = fileConnector.makeFileReader(',', '"', true);

@@ -37,18 +37,14 @@ public class ColumnTypeDefiner {
     }
 
     private String createQuery(String columnName) {
-        String query = String.format(
-                "SELECT sum(case when parseDateTime64BestEffortOrNull(\\\"%s\\\") is not null and \\\"%s\\\" is not null then 0"+
-                " when parseDateTime64BestEffortOrNull(\\\"%s\\\") is null and (\\\"%s\\\" is null or \\\"%s\\\"='') then 0 else 1 end) as val" +
-                " FROM _local.table", columnName, columnName, columnName, columnName, columnName);
-        return query;
+        return String.format("SELECT parseDateTimeBestEffort(\\\"%s\\\") FROM _local.table", columnName);
     }
 
     private String createCommand(String columnName) {
         String resultCommand = this.createSedPart() + this.fileAddress + " | clickhouse-local --structure ";
         resultCommand += "\"" + this.createTableStructure() + "\"";
         resultCommand += " --input-format \"CSV\"";
-        resultCommand += " --query \"" + this.createQuery(columnName) + "\"";
+        resultCommand += " --query \"" + this.createQuery(columnName) + "\"" + " 1>/dev/null";
 
         return resultCommand;
     }
@@ -57,6 +53,7 @@ public class ColumnTypeDefiner {
         String checkingCommand = this.createCommand(columnName);
         System.out.println(checkingCommand);
         ProcessBuilder processBuilder = new ProcessBuilder();
+        //TODO: adapt processBuilder for other os
         processBuilder.command("bash", "-c", checkingCommand);
         Process process = processBuilder.start();
         StringBuilder output = new StringBuilder();
@@ -66,13 +63,15 @@ public class ColumnTypeDefiner {
         while ((line = reader.readLine()) != null) {
             output.append(line).append("\n");
         }
-
         int exitVal = process.waitFor();
-
         if (exitVal != 0) return false;
-        System.out.println(output.toString());
-        if (!output.toString().equals("0\n")) return false;
+        //System.out.println(output.toString());
+        //if (!output.toString().equals("0\n")) return false;
 
         return true;
+    }
+
+    public void checkColumnIfFloat() {
+
     }
 }
